@@ -4,10 +4,10 @@
 
 <nav class="nav" class:scrolled={$isNavScrolled}>
   <div class="nav-container">
-    <a href="#" class="nav-logo" on:click|preventDefault={() => navigateTo('home')}>
+    <button type="button" class="nav-logo" on:click={() => navigateTo('home')}>
       <div class="nav-logo-icon">🍲</div>
       <span class="nav-logo-text">맛</span>
-    </a>
+    </button>
 
     <div class="nav-links">
       <button

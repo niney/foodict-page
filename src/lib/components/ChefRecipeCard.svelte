@@ -9,7 +9,7 @@
   $: difficultyClass = getDifficultyClass(recipe.difficulty)
 </script>
 
-<article
+<div
   class="chef-recipe-card"
   style="animation-delay: {index * 0.15}s"
   on:click={() => openRecipe(recipe.id)}
@@ -60,4 +60,4 @@
       </span>
     </div>
   </div>
-</article>
+</div>

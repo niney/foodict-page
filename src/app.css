@@ -181,6 +181,9 @@ body {
   gap: 0.5rem;
   text-decoration: none;
   cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
 }
 
 .nav-logo-icon {

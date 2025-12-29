@@ -8,7 +8,7 @@
   $: difficultyClass = getDifficultyClass(recipe.difficulty)
 </script>
 
-<article
+<div
   class="recipe-card"
   class:featured
   style="animation-delay: {index * 0.1}s"
@@ -74,4 +74,4 @@
   </div>
 
   <div class="recipe-card-decor"></div>
-</article>
+</div>
