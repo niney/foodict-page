@@ -25,6 +25,11 @@
         class:active={$activeSection === 'chef'}
         on:click={() => navigateTo('chef')}
       >셰프 레시피</button>
+      <button
+        class="nav-link nav-link-highlight"
+        class:active={$activeSection === 'restaurant'}
+        on:click={() => navigateTo('restaurant')}
+      >흑백요리사2</button>
     </div>
 
     <div class="nav-actions">
@@ -66,6 +71,14 @@
     >
       <span>셰프 레시피</span>
       <span class="mobile-menu-link-en">Chef</span>
+    </button>
+    <button
+      class="mobile-menu-link mobile-menu-link-highlight"
+      class:active={$activeSection === 'restaurant'}
+      on:click={() => navigateTo('restaurant')}
+    >
+      <span>흑백요리사2</span>
+      <span class="mobile-menu-link-en">Black & White Chef</span>
     </button>
   </div>
 </nav>

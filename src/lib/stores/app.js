@@ -1,10 +1,12 @@
 import { writable, derived } from 'svelte/store'
 import { getRandomRecipes, getRecipeById } from '../data/recipes/index.js'
 import { getChefRecipeById } from '../data/chefs/index.js'
+import { getRestaurantById } from '../data/restaurants/index.js'
 
 // 현재 페이지 상태
-export const currentPage = writable('home') // 'home' | 'recipe'
+export const currentPage = writable('home') // 'home' | 'recipe' | 'restaurant' | 'restaurants'
 export const selectedRecipeId = writable(null)
+export const selectedRestaurantId = writable(null)
 
 // 레시피 목록
 export const recipes = writable(getRandomRecipes(10))
@@ -21,6 +23,15 @@ export const selectedRecipe = derived(
   ($id) => {
     if (!$id) return null
     return getRecipeById($id) || getChefRecipeById($id)
+  }
+)
+
+// 선택된 식당 (derived store)
+export const selectedRestaurant = derived(
+  selectedRestaurantId,
+  ($id) => {
+    if (!$id) return null
+    return getRestaurantById($id)
   }
 )
 
@@ -51,6 +62,33 @@ export function closeRecipe(pushHistory = true) {
   }
 }
 
+// 식당 열기
+export function openRestaurant(id, pushHistory = true) {
+  const restaurant = getRestaurantById(id)
+  if (!restaurant) return
+
+  selectedRestaurantId.set(id)
+  currentPage.set('restaurant')
+  document.body.style.overflow = 'hidden'
+
+  if (pushHistory) {
+    const state = { page: 'restaurant', id }
+    history.pushState(state, '', `/restaurant/${id}`)
+  }
+}
+
+// 식당 닫기
+export function closeRestaurant(pushHistory = true) {
+  selectedRestaurantId.set(null)
+  currentPage.set('home')
+  document.body.style.overflow = ''
+
+  if (pushHistory) {
+    const state = { page: 'home', id: null }
+    history.pushState(state, '', '/')
+  }
+}
+
 // 레시피 셔플
 export function shuffleRecipes() {
   isLoading.set(true)
@@ -67,11 +105,19 @@ export function navigateTo(section) {
   isMobileMenuOpen.set(false)
 
   if (section === 'home') {
+    currentPage.set('home')
     window.scrollTo({ top: 0, behavior: 'smooth' })
+    history.pushState({ page: 'home' }, '', '/')
   } else if (section === 'today') {
     document.getElementById('todaySection')?.scrollIntoView({ behavior: 'smooth' })
   } else if (section === 'chef') {
     document.getElementById('chefSection')?.scrollIntoView({ behavior: 'smooth' })
+  } else if (section === 'restaurant') {
+    document.getElementById('restaurantSection')?.scrollIntoView({ behavior: 'smooth' })
+  } else if (section === 'restaurants') {
+    currentPage.set('restaurants')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    history.pushState({ page: 'restaurants' }, '', '/restaurants')
   }
 }
 
@@ -94,11 +140,18 @@ export function getDifficultyClass(difficulty) {
 export function initRouter() {
   // 현재 URL 파싱
   const path = window.location.pathname
-  const match = path.match(/\/recipe\/(\d+)/)
 
-  if (match) {
-    const id = parseInt(match[1])
+  const recipeMatch = path.match(/\/recipe\/(\d+)/)
+  const restaurantMatch = path.match(/\/restaurant\/(\d+)/)
+
+  if (recipeMatch) {
+    const id = parseInt(recipeMatch[1])
     openRecipe(id, false)
+  } else if (restaurantMatch) {
+    const id = parseInt(restaurantMatch[1])
+    openRestaurant(id, false)
+  } else if (path === '/restaurants') {
+    currentPage.set('restaurants')
   }
 
   // popstate 이벤트 등록
@@ -106,8 +159,15 @@ export function initRouter() {
     const state = e.state || { page: 'home', id: null }
     if (state.page === 'recipe' && state.id) {
       openRecipe(state.id, false)
+    } else if (state.page === 'restaurant' && state.id) {
+      openRestaurant(state.id, false)
+    } else if (state.page === 'restaurants') {
+      currentPage.set('restaurants')
+      document.body.style.overflow = ''
     } else {
       closeRecipe(false)
+      closeRestaurant(false)
+      currentPage.set('home')
     }
   })
 
@@ -122,6 +182,8 @@ export function initRouter() {
       currentPage.subscribe(page => {
         if (page === 'recipe') {
           closeRecipe()
+        } else if (page === 'restaurant') {
+          closeRestaurant()
         }
       })()
     }
