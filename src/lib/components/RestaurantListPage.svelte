@@ -1,4 +1,5 @@
 <script>
+  import { onMount, onDestroy } from 'svelte'
   import { getWhiteSpoonRestaurants, getBlackSpoonRestaurants } from '../data/restaurants/index.js'
   import { navigateTo, openRestaurant } from '../stores/app.js'
 
@@ -10,9 +11,41 @@
       ? getBlackSpoonRestaurants()
       : [...getWhiteSpoonRestaurants(), ...getBlackSpoonRestaurants()]
 
+  // 해시에서 탭 상태 읽기
+  const getTabFromHash = () => {
+    const hash = window.location.hash.slice(1)
+    if (hash === 'white' || hash === 'black') {
+      return hash
+    }
+    return 'all'
+  }
+
+  // 탭 변경 시 해시 업데이트
   const setTab = (tab) => {
     activeTab = tab
+    const newHash = tab === 'all' ? '' : `#${tab}`
+    const basePath = window.location.pathname
+    history.pushState({ page: 'restaurants', tab }, '', basePath + newHash)
   }
+
+  // 해시 변경 감지 (popstate 포함)
+  const handleHashChange = () => {
+    activeTab = getTabFromHash()
+  }
+
+  onMount(() => {
+    // 초기 해시에서 탭 상태 설정
+    activeTab = getTabFromHash()
+    window.addEventListener('hashchange', handleHashChange)
+    window.addEventListener('popstate', handleHashChange)
+  })
+
+  onDestroy(() => {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('hashchange', handleHashChange)
+      window.removeEventListener('popstate', handleHashChange)
+    }
+  })
 </script>
 
 <div class="restaurant-list-page">
