@@ -8,8 +8,25 @@ Foodict는 다양한 요리 레시피를 한눈에 볼 수 있는 플랫폼입�
 
 ## 기술 스택
 
-- GitHub Pages
-- HTML / CSS / JavaScript
+- Svelte 5
+- Vite 6
+- GitHub Pages + GitHub Actions (자동 배포)
+
+## 개발
+
+```bash
+# 의존성 설치
+npm install
+
+# 개발 서버 실행
+npm run dev
+
+# 빌드
+npm run build
+
+# 빌드 미리보기
+npm run preview
+```
 
 ## 라이선스
 
