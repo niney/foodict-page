@@ -35,6 +35,9 @@ export const selectedRestaurant = derived(
   }
 )
 
+// Base URL (Vite에서 설정한 base 경로)
+const BASE_URL = import.meta.env.BASE_URL
+
 // 레시피 열기
 export function openRecipe(id, pushHistory = true) {
   const recipe = getRecipeById(id) || getChefRecipeById(id)
@@ -46,7 +49,7 @@ export function openRecipe(id, pushHistory = true) {
 
   if (pushHistory) {
     const state = { page: 'recipe', id }
-    history.pushState(state, '', `/recipe/${id}`)
+    history.pushState(state, '', `${BASE_URL}recipe/${id}`)
   }
 }
 
@@ -58,7 +61,7 @@ export function closeRecipe(pushHistory = true) {
 
   if (pushHistory) {
     const state = { page: 'home', id: null }
-    history.pushState(state, '', '/')
+    history.pushState(state, '', BASE_URL)
   }
 }
 
@@ -73,7 +76,7 @@ export function openRestaurant(id, pushHistory = true) {
 
   if (pushHistory) {
     const state = { page: 'restaurant', id }
-    history.pushState(state, '', `/restaurant/${id}`)
+    history.pushState(state, '', `${BASE_URL}restaurant/${id}`)
   }
 }
 
@@ -85,7 +88,7 @@ export function closeRestaurant(pushHistory = true) {
 
   if (pushHistory) {
     const state = { page: 'home', id: null }
-    history.pushState(state, '', '/')
+    history.pushState(state, '', BASE_URL)
   }
 }
 
@@ -107,7 +110,7 @@ export function navigateTo(section) {
   if (section === 'home') {
     currentPage.set('home')
     window.scrollTo({ top: 0, behavior: 'smooth' })
-    history.pushState({ page: 'home' }, '', '/')
+    history.pushState({ page: 'home' }, '', BASE_URL)
   } else if (section === 'today') {
     document.getElementById('todaySection')?.scrollIntoView({ behavior: 'smooth' })
   } else if (section === 'chef') {
@@ -117,7 +120,7 @@ export function navigateTo(section) {
   } else if (section === 'restaurants') {
     currentPage.set('restaurants')
     window.scrollTo({ top: 0, behavior: 'smooth' })
-    history.pushState({ page: 'restaurants' }, '', '/restaurants')
+    history.pushState({ page: 'restaurants' }, '', `${BASE_URL}restaurants`)
   }
 }
 
@@ -138,8 +141,9 @@ export function getDifficultyClass(difficulty) {
 
 // 라우터 초기화
 export function initRouter() {
-  // 현재 URL 파싱
-  const path = window.location.pathname
+  // 현재 URL 파싱 (base path 제거)
+  const fullPath = window.location.pathname
+  const path = fullPath.replace(BASE_URL.slice(0, -1), '') || '/'
 
   const recipeMatch = path.match(/\/recipe\/(\d+)/)
   const restaurantMatch = path.match(/\/restaurant\/(\d+)/)
