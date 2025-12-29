@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting...</title>
+  <script>
+    // GitHub Pages SPA 404 리다이렉트
+    // 현재 경로를 세션 스토리지에 저장하고 base URL로 리다이렉트
+    var pathSegmentsToKeep = 1; // /foodict-page/ 유지
+    var l = window.location;
+
+    // 전체 경로를 저장
+    sessionStorage.redirect = l.pathname + l.search + l.hash;
+
+    // base URL로 리다이렉트
+    l.replace(
+      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/'
+    );
+  </script>
+</head>
+<body>
+  <p>잠시만 기다려주세요...</p>
+</body>
+</html>
