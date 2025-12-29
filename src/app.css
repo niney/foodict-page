@@ -2475,6 +2475,16 @@ button:focus-visible {
   gap: 0.5rem;
 }
 
+.restaurant-detail-map {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.restaurant-detail-map iframe {
+  display: block;
+}
+
 .signature-item {
   padding: 0.5rem 1rem;
   background: var(--amber-100);

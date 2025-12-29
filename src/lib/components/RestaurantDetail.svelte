@@ -79,9 +79,25 @@
         </div>
       </div>
 
+      <div class="restaurant-detail-section">
+        <h2 class="restaurant-detail-section-title">위치</h2>
+        <div class="restaurant-detail-map">
+          <iframe
+            src="https://map.naver.com/p/search/{encodeURIComponent(restaurant.name + ' ' + restaurant.location)}"
+            width="100%"
+            height="400"
+            frameborder="0"
+            style="border:0; border-radius: 0.75rem;"
+            allowfullscreen
+            loading="lazy"
+            title="{restaurant.name} 위치"
+          ></iframe>
+        </div>
+      </div>
+
       <div class="restaurant-detail-actions">
         <a
-          href="https://www.google.com/maps/search/{encodeURIComponent(restaurant.name + ' ' + restaurant.location)}"
+          href="https://map.naver.com/p/search/{encodeURIComponent(restaurant.name + ' ' + restaurant.location)}"
           target="_blank"
           rel="noopener noreferrer"
           class="restaurant-detail-btn btn-map"
@@ -90,7 +106,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
           </svg>
-          지도에서 보기
+          네이버 지도에서 보기
         </a>
         <a
           href="https://www.google.com/search?q={encodeURIComponent(restaurant.name + ' 예약')}"
