@@ -2502,6 +2502,12 @@ button:focus-visible {
   padding: 2rem;
 }
 
+@media (max-width: 768px) {
+  .restaurant-detail-body {
+    padding: 1rem 0.5rem;
+  }
+}
+
 .restaurant-detail-section {
   margin-bottom: 2rem;
 }

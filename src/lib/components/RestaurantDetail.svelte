@@ -8,8 +8,24 @@
   let menuData = null
   let isLoadingSentiment = false
   let isLoadingMenu = false
+  let isMobile = false
+
+  // 모바일/데스크탑에 따른 네이버 지도 URL
+  $: placeUrl = isMobile
+    ? `https://m.place.naver.com/restaurant/${restaurant.placeId}/location`
+    : `https://map.naver.com/p/entry/place/${restaurant.placeId}`
+  $: searchUrl = isMobile
+    ? `https://m.place.naver.com/restaurant/${restaurant.placeId}/location`
+    : `https://map.naver.com/p/search/${encodeURIComponent(restaurant.searchName || '')}`
+  $: mapHeight = isMobile ? 600 : 400
 
   onMount(async () => {
+    // 모바일 감지
+    const checkMobile = () => {
+      isMobile = window.innerWidth <= 768
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
     if (restaurant.nlpId) {
       isLoadingSentiment = true
       isLoadingMenu = true
@@ -43,6 +59,11 @@
       } finally {
         isLoadingMenu = false
       }
+    }
+
+    // cleanup
+    return () => {
+      window.removeEventListener('resize', checkMobile)
     }
   })
 
@@ -133,9 +154,9 @@
           <h2 class="restaurant-detail-section-title">위치</h2>
           <div class="restaurant-detail-map">
             <iframe
-              src="https://map.naver.com/p/entry/place/{restaurant.placeId}"
+              src={placeUrl}
               width="100%"
-              height="400"
+              height={mapHeight}
               frameborder="0"
               style="border:0; border-radius: 0.75rem;"
               allowfullscreen
@@ -145,7 +166,7 @@
           </div>
           <div class="restaurant-detail-actions">
             <a
-              href="https://map.naver.com/p/entry/place/{restaurant.placeId}"
+              href={placeUrl}
               target="_blank"
               rel="noopener noreferrer"
               class="restaurant-detail-btn btn-map"
@@ -174,9 +195,9 @@
           <h2 class="restaurant-detail-section-title">위치</h2>
           <div class="restaurant-detail-map">
             <iframe
-              src="https://map.naver.com/p/search/{encodeURIComponent(restaurant.searchName)}"
+              src={searchUrl}
               width="100%"
-              height="400"
+              height={mapHeight}
               frameborder="0"
               style="border:0; border-radius: 0.75rem;"
               allowfullscreen
@@ -186,7 +207,7 @@
           </div>
           <div class="restaurant-detail-actions">
             <a
-              href="https://map.naver.com/p/search/{encodeURIComponent(restaurant.searchName)}"
+              href={searchUrl}
               target="_blank"
               rel="noopener noreferrer"
               class="restaurant-detail-btn btn-map"
