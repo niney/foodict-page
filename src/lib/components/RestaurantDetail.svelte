@@ -17,7 +17,7 @@
   $: searchUrl = isMobile
     ? `https://m.place.naver.com/restaurant/${restaurant.placeId}/location`
     : `https://map.naver.com/p/search/${encodeURIComponent(restaurant.searchName || '')}`
-  $: mapHeight = isMobile ? 600 : 400
+  $: mapHeight = isMobile ? 600 : 800
 
   onMount(async () => {
     // 모바일 감지
