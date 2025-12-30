@@ -2652,8 +2652,8 @@ button:focus-visible {
   gap: 0.625rem;
   padding: 0.875rem 1rem;
   background: linear-gradient(145deg, #fefefe 0%, #f8fafc 100%);
-  border: 1px solid var(--stone-200);
   border-radius: 0.75rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 .sentiment-inline-card.loading {
@@ -2756,14 +2756,6 @@ button:focus-visible {
   border-radius: 0.75rem;
   overflow: hidden;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-}
-
-.menu-ranking-card.positive {
-  border: 1px solid #bbf7d0;
-}
-
-.menu-ranking-card.negative {
-  border: 1px solid #fecaca;
 }
 
 .ranking-header {
@@ -2992,13 +2984,13 @@ button:focus-visible {
 .menu-stat-item {
   padding: 0.75rem;
   background: #fff;
-  border: 1px solid var(--stone-200);
   border-radius: 0.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   transition: box-shadow 0.2s ease;
 }
 
 .menu-stat-item:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .menu-stat-header {
