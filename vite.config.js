@@ -3,5 +3,8 @@ import { svelte } from '@sveltejs/vite-plugin-svelte'
 
 export default defineConfig({
   plugins: [svelte()],
-  base: '/foodict-page/'
+  base: '/foodict-page/',
+  server: {
+    host: true
+  }
 })
