@@ -9,6 +9,7 @@
   let isLoadingSentiment = false
   let isLoadingMenu = false
   let isMobile = false
+  let showMap = false
 
   // 모바일/데스크탑에 따른 네이버 지도 URL
   $: placeUrl = isMobile
@@ -26,6 +27,12 @@
     }
     checkMobile()
     window.addEventListener('resize', checkMobile)
+
+    // iframe 지연 로딩 (뒤로가기 이벤트 충돌 방지)
+    const mapTimer = setTimeout(() => {
+      showMap = true
+    }, 300)
+
     if (restaurant.nlpId) {
       isLoadingSentiment = true
       isLoadingMenu = true
@@ -64,6 +71,7 @@
     // cleanup
     return () => {
       window.removeEventListener('resize', checkMobile)
+      clearTimeout(mapTimer)
     }
   })
 
@@ -153,16 +161,20 @@
         <div class="restaurant-detail-section">
           <h2 class="restaurant-detail-section-title">위치</h2>
           <div class="restaurant-detail-map">
-            <iframe
-              src={placeUrl}
-              width="100%"
-              height={mapHeight}
-              frameborder="0"
-              style="border:0; border-radius: 0.75rem;"
-              allowfullscreen
-              loading="lazy"
-              title="{restaurant.name} 위치"
-            ></iframe>
+            {#if showMap}
+              <iframe
+                src={placeUrl}
+                width="100%"
+                height={mapHeight}
+                frameborder="0"
+                style="border:0; border-radius: 0.75rem;"
+                allowfullscreen
+                loading="lazy"
+                title="{restaurant.name} 위치"
+              ></iframe>
+            {:else}
+              <div class="map-placeholder" style="height: {mapHeight}px"></div>
+            {/if}
           </div>
           <div class="restaurant-detail-actions">
             <a
@@ -194,16 +206,20 @@
         <div class="restaurant-detail-section">
           <h2 class="restaurant-detail-section-title">위치</h2>
           <div class="restaurant-detail-map">
-            <iframe
-              src={searchUrl}
-              width="100%"
-              height={mapHeight}
-              frameborder="0"
-              style="border:0; border-radius: 0.75rem;"
-              allowfullscreen
-              loading="lazy"
-              title="{restaurant.name} 위치"
-            ></iframe>
+            {#if showMap}
+              <iframe
+                src={searchUrl}
+                width="100%"
+                height={mapHeight}
+                frameborder="0"
+                style="border:0; border-radius: 0.75rem;"
+                allowfullscreen
+                loading="lazy"
+                title="{restaurant.name} 위치"
+              ></iframe>
+            {:else}
+              <div class="map-placeholder" style="height: {mapHeight}px"></div>
+            {/if}
           </div>
           <div class="restaurant-detail-actions">
             <a

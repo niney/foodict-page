@@ -2597,6 +2597,14 @@ button:focus-visible {
   display: block;
 }
 
+.map-placeholder {
+  background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-200) 100%);
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .signature-item {
   padding: 0.5rem 1rem;
   background: var(--amber-100);
