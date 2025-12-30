@@ -2019,6 +2019,112 @@ button:focus-visible {
   gap: 0.25rem;
 }
 
+/* Restaurant Card - Sentiment Analysis */
+.restaurant-card-sentiment {
+  margin: 0.75rem 0;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, var(--stone-50) 0%, #f8fafc 100%);
+  border-radius: 0.5rem;
+  border: 1px solid var(--stone-200);
+}
+
+.restaurant-card-sentiment.loading {
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sentiment-skeleton {
+  width: 100%;
+  height: 12px;
+  background: linear-gradient(90deg, var(--stone-200) 25%, var(--stone-100) 50%, var(--stone-200) 75%);
+  background-size: 200% 100%;
+  border-radius: 6px;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.sentiment-header {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--stone-600);
+}
+
+.sentiment-header svg {
+  color: var(--amber-500);
+}
+
+.sentiment-count {
+  margin-left: auto;
+  font-weight: 500;
+  color: var(--stone-500);
+  font-size: 0.7rem;
+}
+
+.sentiment-bar {
+  display: flex;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--stone-200);
+  margin-bottom: 0.5rem;
+}
+
+.sentiment-positive {
+  background: linear-gradient(90deg, #22c55e, #4ade80);
+  transition: width 0.5s ease;
+}
+
+.sentiment-neutral {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  transition: width 0.5s ease;
+}
+
+.sentiment-negative {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+  transition: width 0.5s ease;
+}
+
+.sentiment-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  color: var(--stone-500);
+}
+
+.sentiment-labels span {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.sentiment-labels .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.label-positive .dot {
+  background: #22c55e;
+}
+
+.label-neutral .dot {
+  background: #f59e0b;
+}
+
+.label-negative .dot {
+  background: #ef4444;
+}
+
 /* =============================================
    Restaurant List Page
    ============================================= */
@@ -2530,6 +2636,111 @@ button:focus-visible {
 
 .btn-reserve:hover {
   box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+}
+
+/* Restaurant Detail - Sentiment Analysis */
+.restaurant-detail-section-title svg {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  color: var(--amber-500);
+}
+
+.sentiment-inline-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 0.875rem 1rem;
+  background: linear-gradient(145deg, #fefefe 0%, #f8fafc 100%);
+  border: 1px solid var(--stone-200);
+  border-radius: 0.75rem;
+}
+
+.sentiment-inline-card.loading {
+  min-height: 56px;
+  justify-content: center;
+}
+
+.sentiment-inline-skeleton {
+  height: 16px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--stone-200) 25%, var(--stone-100) 50%, var(--stone-200) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+.sentiment-visual-bar {
+  display: flex;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--stone-200);
+}
+
+.sentiment-bar-segment {
+  height: 100%;
+  transition: width 0.6s ease;
+}
+
+.sentiment-bar-segment.positive {
+  background: linear-gradient(90deg, #22c55e, #4ade80);
+}
+
+.sentiment-bar-segment.neutral {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+.sentiment-bar-segment.negative {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+
+.sentiment-inline-stats {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sentiment-inline-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.sentiment-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.sentiment-inline-item.positive .sentiment-dot { background: #22c55e; }
+.sentiment-inline-item.neutral .sentiment-dot { background: #f59e0b; }
+.sentiment-inline-item.negative .sentiment-dot { background: #ef4444; }
+
+.sentiment-label {
+  font-size: 0.7rem;
+  color: var(--stone-600);
+}
+
+.sentiment-inline-total {
+  margin-left: auto;
+  font-size: 0.65rem;
+  color: var(--stone-400);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .sentiment-inline-stats {
+    gap: 0.75rem;
+  }
+
+  .sentiment-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .sentiment-label {
+    font-size: 0.65rem;
+  }
 }
 
 /* =============================================

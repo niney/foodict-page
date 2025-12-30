@@ -1,7 +1,30 @@
 <script>
+  import { onMount } from 'svelte'
   import { closeRestaurant } from '../stores/app.js'
 
   export let restaurant
+
+  let sentimentData = null
+  let isLoadingSentiment = false
+
+  onMount(async () => {
+    if (restaurant.nlpId) {
+      isLoadingSentiment = true
+      try {
+        const response = await fetch(
+          `https://nlpfriendly.easypcb.co.kr/api/restaurants/${restaurant.nlpId}/statistics`
+        )
+        const result = await response.json()
+        if (result.result && result.data) {
+          sentimentData = result.data
+        }
+      } catch (error) {
+        console.error('Failed to fetch sentiment data:', error)
+      } finally {
+        isLoadingSentiment = false
+      }
+    }
+  })
 </script>
 
 <div class="restaurant-detail">
@@ -78,6 +101,47 @@
           {/each}
         </div>
       </div>
+
+      {#if sentimentData}
+        <div class="restaurant-detail-section">
+          <h2 class="restaurant-detail-section-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+            </svg>
+            네이버 리뷰 감정 분석
+          </h2>
+
+          <div class="sentiment-inline-card">
+            <div class="sentiment-visual-bar">
+              <div class="sentiment-bar-segment positive" style="width: {sentimentData.positiveRate}%"></div>
+              <div class="sentiment-bar-segment neutral" style="width: {sentimentData.neutralRate}%"></div>
+              <div class="sentiment-bar-segment negative" style="width: {sentimentData.negativeRate}%"></div>
+            </div>
+            <div class="sentiment-inline-stats">
+              <span class="sentiment-inline-item positive">
+                <span class="sentiment-dot"></span>
+                <span class="sentiment-label">긍정 {sentimentData.positiveRate}%</span>
+              </span>
+              <span class="sentiment-inline-item neutral">
+                <span class="sentiment-dot"></span>
+                <span class="sentiment-label">중립 {sentimentData.neutralRate}%</span>
+              </span>
+              <span class="sentiment-inline-item negative">
+                <span class="sentiment-dot"></span>
+                <span class="sentiment-label">부정 {sentimentData.negativeRate}%</span>
+              </span>
+              <span class="sentiment-inline-total">{sentimentData.totalReviews}개 분석</span>
+            </div>
+          </div>
+        </div>
+      {:else if isLoadingSentiment}
+        <div class="restaurant-detail-section">
+          <h2 class="restaurant-detail-section-title">네이버 리뷰 감정 분석</h2>
+          <div class="sentiment-inline-card loading">
+            <div class="sentiment-inline-skeleton"></div>
+          </div>
+        </div>
+      {/if}
 
       {#if restaurant.placeId}
         <div class="restaurant-detail-section">
