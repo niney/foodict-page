@@ -5,11 +5,16 @@
   export let restaurant
 
   let sentimentData = null
+  let menuData = null
   let isLoadingSentiment = false
+  let isLoadingMenu = false
 
   onMount(async () => {
     if (restaurant.nlpId) {
       isLoadingSentiment = true
+      isLoadingMenu = true
+
+      // 감정 분석 통계 조회
       try {
         const response = await fetch(
           `https://nlpfriendly.easypcb.co.kr/api/restaurants/${restaurant.nlpId}/statistics`
@@ -23,8 +28,29 @@
       } finally {
         isLoadingSentiment = false
       }
+
+      // 메뉴 통계 조회
+      try {
+        const response = await fetch(
+          `https://nlpfriendly.easypcb.co.kr/api/restaurants/${restaurant.nlpId}/menu-statistics?minMentions=1`
+        )
+        const result = await response.json()
+        if (result.result && result.data) {
+          menuData = result.data
+        }
+      } catch (error) {
+        console.error('Failed to fetch menu data:', error)
+      } finally {
+        isLoadingMenu = false
+      }
     }
   })
+
+  function getSentimentColor(sentiment) {
+    if (sentiment === 'positive') return '#22c55e'
+    if (sentiment === 'negative') return '#ef4444'
+    return '#f59e0b'
+  }
 </script>
 
 <div class="restaurant-detail">
@@ -102,6 +128,90 @@
         </div>
       </div>
 
+      {#if restaurant.placeId}
+        <div class="restaurant-detail-section">
+          <h2 class="restaurant-detail-section-title">위치</h2>
+          <div class="restaurant-detail-map">
+            <iframe
+              src="https://map.naver.com/p/entry/place/{restaurant.placeId}"
+              width="100%"
+              height="400"
+              frameborder="0"
+              style="border:0; border-radius: 0.75rem;"
+              allowfullscreen
+              loading="lazy"
+              title="{restaurant.name} 위치"
+            ></iframe>
+          </div>
+          <div class="restaurant-detail-actions">
+            <a
+              href="https://map.naver.com/p/entry/place/{restaurant.placeId}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="restaurant-detail-btn btn-map"
+            >
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              네이버 지도에서 보기
+            </a>
+            <a
+              href="https://www.google.com/search?q={encodeURIComponent(restaurant.name + ' 예약')}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="restaurant-detail-btn btn-reserve"
+            >
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              예약하기
+            </a>
+          </div>
+        </div>
+      {:else if restaurant.searchName}
+        <div class="restaurant-detail-section">
+          <h2 class="restaurant-detail-section-title">위치</h2>
+          <div class="restaurant-detail-map">
+            <iframe
+              src="https://map.naver.com/p/search/{encodeURIComponent(restaurant.searchName)}"
+              width="100%"
+              height="400"
+              frameborder="0"
+              style="border:0; border-radius: 0.75rem;"
+              allowfullscreen
+              loading="lazy"
+              title="{restaurant.name} 위치"
+            ></iframe>
+          </div>
+          <div class="restaurant-detail-actions">
+            <a
+              href="https://map.naver.com/p/search/{encodeURIComponent(restaurant.searchName)}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="restaurant-detail-btn btn-map"
+            >
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              네이버 지도에서 검색
+            </a>
+            <a
+              href="https://www.google.com/search?q={encodeURIComponent(restaurant.name + ' 예약')}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="restaurant-detail-btn btn-reserve"
+            >
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              예약하기
+            </a>
+          </div>
+        </div>
+      {/if}
+
       {#if sentimentData}
         <div class="restaurant-detail-section">
           <h2 class="restaurant-detail-section-title">
@@ -143,80 +253,149 @@
         </div>
       {/if}
 
-      {#if restaurant.placeId}
+      {#if menuData && menuData.menuStatistics && menuData.menuStatistics.length > 0}
         <div class="restaurant-detail-section">
-          <h2 class="restaurant-detail-section-title">위치</h2>
-          <div class="restaurant-detail-map">
-            <iframe
-              src="https://map.naver.com/p/entry/place/{restaurant.placeId}"
-              width="100%"
-              height="400"
-              frameborder="0"
-              style="border:0; border-radius: 0.75rem;"
-              allowfullscreen
-              loading="lazy"
-              title="{restaurant.name} 위치"
-            ></iframe>
+          <h2 class="restaurant-detail-section-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 3h18v18H3zM3 9h18M9 21V9"/>
+            </svg>
+            메뉴별 리뷰 분석
+          </h2>
+
+          <!-- Top Positive & Negative Menus -->
+          {#if menuData.topPositiveMenus?.length > 0 || menuData.topNegativeMenus?.length > 0}
+            <div class="menu-ranking-section">
+              {#if menuData.topPositiveMenus?.length > 0}
+                <div class="menu-ranking-card positive">
+                  <div class="ranking-header">
+                    <div class="ranking-badge positive">
+                      <span class="badge-icon">🏆</span>
+                      <span class="badge-text">인기 메뉴</span>
+                    </div>
+                    <span class="ranking-count">{menuData.topPositiveMenus.length}개</span>
+                  </div>
+                  <div class="ranking-table">
+                    <div class="ranking-table-header">
+                      <span class="col-rank">#</span>
+                      <span class="col-name">메뉴</span>
+                      <span class="col-sentiment">긍정</span>
+                      <span class="col-sentiment">중립</span>
+                      <span class="col-sentiment">부정</span>
+                      <span class="col-rate">만족도</span>
+                    </div>
+                    {#each menuData.topPositiveMenus as menu, i}
+                      <div class="ranking-row" style="animation-delay: {i * 0.05}s">
+                        <span class="col-rank">
+                          <span class="rank-num" class:gold={i === 0} class:silver={i === 1} class:bronze={i === 2}>{i + 1}</span>
+                        </span>
+                        <span class="col-name">{menu.menuName}</span>
+                        <span class="col-sentiment positive">{menu.positive}</span>
+                        <span class="col-sentiment neutral">{menu.neutral}</span>
+                        <span class="col-sentiment negative">{menu.negative}</span>
+                        <span class="col-rate">
+                          <span class="rate-bar">
+                            <span class="rate-fill positive" style="width: {menu.positiveRate}%"></span>
+                          </span>
+                          <span class="rate-value positive">{menu.positiveRate}%</span>
+                        </span>
+                      </div>
+                    {/each}
+                  </div>
+                </div>
+              {/if}
+
+              {#if menuData.topNegativeMenus?.length > 0}
+                <div class="menu-ranking-card negative">
+                  <div class="ranking-header">
+                    <div class="ranking-badge negative">
+                      <span class="badge-icon">📉</span>
+                      <span class="badge-text">개선 필요</span>
+                    </div>
+                    <span class="ranking-count">{menuData.topNegativeMenus.length}개</span>
+                  </div>
+                  <div class="ranking-table">
+                    <div class="ranking-table-header">
+                      <span class="col-rank">#</span>
+                      <span class="col-name">메뉴</span>
+                      <span class="col-sentiment">긍정</span>
+                      <span class="col-sentiment">중립</span>
+                      <span class="col-sentiment">부정</span>
+                      <span class="col-rate">부정률</span>
+                    </div>
+                    {#each menuData.topNegativeMenus as menu, i}
+                      <div class="ranking-row" style="animation-delay: {i * 0.05}s">
+                        <span class="col-rank">
+                          <span class="rank-num negative">{i + 1}</span>
+                        </span>
+                        <span class="col-name">{menu.menuName}</span>
+                        <span class="col-sentiment positive">{menu.positive}</span>
+                        <span class="col-sentiment neutral">{menu.neutral}</span>
+                        <span class="col-sentiment negative">{menu.negative}</span>
+                        <span class="col-rate">
+                          <span class="rate-bar">
+                            <span class="rate-fill negative" style="width: {menu.negativeRate}%"></span>
+                          </span>
+                          <span class="rate-value negative">{menu.negativeRate}%</span>
+                        </span>
+                      </div>
+                    {/each}
+                  </div>
+                </div>
+              {/if}
+            </div>
+          {/if}
+
+          <!-- All Menu Statistics -->
+          <div class="menu-stats-container">
+            {#each menuData.menuStatistics as menu}
+              <div class="menu-stat-item">
+                <div class="menu-stat-header">
+                  <span class="menu-stat-name">{menu.menuName}</span>
+                  <span class="menu-stat-mentions">{menu.totalMentions}회 언급</span>
+                </div>
+                <div class="menu-stat-counts">
+                  <span class="count-item positive">👍 {menu.positive}</span>
+                  <span class="count-item neutral">😐 {menu.neutral}</span>
+                  <span class="count-item negative">👎 {menu.negative}</span>
+                </div>
+                <div class="menu-stat-bar-wrapper">
+                  <div class="menu-stat-bar">
+                    <div
+                      class="menu-stat-bar-fill"
+                      style="width: {menu.positiveRate}%; background: {getSentimentColor(menu.sentiment)}"
+                    ></div>
+                  </div>
+                  <span class="menu-stat-rate" style="color: {getSentimentColor(menu.sentiment)}">
+                    {menu.positiveRate}%
+                  </span>
+                </div>
+                {#if menu.topReasons.positive.length > 0 || menu.topReasons.negative.length > 0 || menu.topReasons.neutral.length > 0}
+                  <div class="menu-stat-tags">
+                    {#each menu.topReasons.positive as reason}
+                      <span class="menu-tag positive">{reason}</span>
+                    {/each}
+                    {#each menu.topReasons.neutral as reason}
+                      <span class="menu-tag neutral">{reason}</span>
+                    {/each}
+                    {#each menu.topReasons.negative as reason}
+                      <span class="menu-tag negative">{reason}</span>
+                    {/each}
+                  </div>
+                {/if}
+              </div>
+            {/each}
           </div>
         </div>
-      {:else if restaurant.searchName}
+      {:else if isLoadingMenu}
         <div class="restaurant-detail-section">
-          <h2 class="restaurant-detail-section-title">위치</h2>
-          <div class="restaurant-detail-map">
-            <iframe
-              src="https://map.naver.com/p/search/{encodeURIComponent(restaurant.searchName)}"
-              width="100%"
-              height="400"
-              frameborder="0"
-              style="border:0; border-radius: 0.75rem;"
-              allowfullscreen
-              loading="lazy"
-              title="{restaurant.name} 위치"
-            ></iframe>
+          <h2 class="restaurant-detail-section-title">메뉴별 리뷰 분석</h2>
+          <div class="menu-stats-loading">
+            {#each [1, 2, 3] as _}
+              <div class="menu-stat-skeleton"></div>
+            {/each}
           </div>
         </div>
       {/if}
-
-      <div class="restaurant-detail-actions">
-        {#if restaurant.placeId}
-          <a
-            href="https://map.naver.com/p/entry/place/{restaurant.placeId}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="restaurant-detail-btn btn-map"
-          >
-            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-            </svg>
-            네이버 지도에서 보기
-          </a>
-        {:else if restaurant.searchName}
-          <a
-            href="https://map.naver.com/p/search/{encodeURIComponent(restaurant.searchName)}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="restaurant-detail-btn btn-map"
-          >
-            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-            </svg>
-            네이버 지도에서 검색
-          </a>
-        {/if}
-        <a
-          href="https://www.google.com/search?q={encodeURIComponent(restaurant.name + ' 예약')}"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="restaurant-detail-btn btn-reserve"
-        >
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-          </svg>
-          예약하기
-        </a>
-      </div>
     </div>
   </div>
 </div>
