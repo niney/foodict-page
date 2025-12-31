@@ -1,0 +1,17 @@
+export default {
+  id: 102,
+  name: '드레스덴 그린',
+  nameEn: 'Dresden Green',
+  chef: '박가람',
+  chefNickname: '천생연분',
+  spoonType: 'black',
+  category: '컨템퍼러리',
+  location: '서울 강남구 청담동',
+  michelin: 0,
+  placeId: '1863884392',
+  nlpId: 678,
+  image: 'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600',
+  description: '예술적인 플레이팅의 컨템퍼러리 다이닝',
+  signature: ['컨템퍼러리 코스'],
+  priceRange: '$$$$',
+};
