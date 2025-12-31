@@ -1,0 +1,21 @@
+import type { Restaurant } from '../../types/restaurant';
+
+const data: Restaurant = {
+  id: 101,
+  name: '세누프라이빗키친',
+  nameEn: 'Chez Nous Private Kitchen',
+  chef: '고효일',
+  chefNickname: '안녕 봉주르',
+  spoonType: 'black',
+  category: '프랑스 코스요리',
+  location: '서울 용산구 녹사평대로 210-6',
+  michelin: 0,
+  placeId: '1857903324',
+  nlpId: 676,
+  image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600',
+  description: '프라이빗한 분위기의 프렌치 코스 요리',
+  signature: ['프렌치 코스'],
+  priceRange: '$$$$',
+};
+
+export default data;

@@ -1,0 +1,21 @@
+import type { Restaurant } from '../../types/restaurant';
+
+const data: Restaurant = {
+  id: 16,
+  name: '면서울',
+  nameEn: 'Myeon Seoul',
+  chef: '김도윤',
+  chefNickname: null,
+  spoonType: 'white',
+  category: '면요리',
+  location: '서울',
+  michelin: 1,
+  placeId: '1881172296',
+  nlpId: 704,
+  image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600',
+  description: '김도윤 셰프의 면 전문 레스토랑',
+  signature: ['수제 면요리'],
+  priceRange: '$$$',
+};
+
+export default data;

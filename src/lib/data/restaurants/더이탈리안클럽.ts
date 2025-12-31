@@ -1,0 +1,21 @@
+import type { Restaurant } from '../../types/restaurant';
+
+const data: Restaurant = {
+  id: 109,
+  name: '더 이탈리안 클럽',
+  nameEn: 'The Italian Club',
+  chef: '김호윤',
+  chefNickname: '키친보스',
+  spoonType: 'black',
+  category: '이탈리안',
+  location: '서울 송파구 신천동 29-1',
+  michelin: 0,
+  placeId: '1072373722',
+  nlpId: 685,
+  image: 'https://images.unsplash.com/photo-1555992336-03a23c7b20ee?w=600',
+  description: '본격 이탈리안 라구 파스타',
+  signature: ['라구 파스타', '이탈리안 코스'],
+  priceRange: '$$$',
+};
+
+export default data;

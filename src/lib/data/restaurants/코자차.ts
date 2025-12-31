@@ -1,0 +1,32 @@
+import type { Restaurant } from '../../types/restaurant';
+
+const data: Restaurant = {
+  id: 7,
+  name: '코자차',
+  nameEn: 'Kozacha',
+  chef: '최유강',
+  chefNickname: null,
+  spoonType: 'white',
+  category: '퓨전음식',
+  location: '서울 강남구 청담동',
+  michelin: 1,
+  placeId: '1777546474',
+  nlpId: 697,
+  image: 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=600',
+  description: '프렌치와 퓨전의 조화로운 파인다이닝',
+  signature: ['프렌치 코스'],
+  priceRange: '$$$$',
+  phone: '010-9023-7771',
+  awards: ['미쉐린가이드 서울 2025'],
+  price: { lunch: '13.5만원', dinner: '22.5만원' },
+  hours: { lunch: '12:00~14:30', dinner: '18:00~22:00' },
+  closedDays: '일요일',
+  amenities: ['콜키지', '자동결제', '예약금 0원 결제'],
+  parking: { type: '야외 주차장', capacity: '12대', rate: '1회 5,000원', note: '점심 고객 직접주차 3시까지 무료' },
+  valet: { rate: '5,000원', note: '평일 디너만' },
+  corkage: { wine: '5만원/병', other: '10만원/병' },
+  kidsNote: '유아동반가능, 키즈메뉴 제공가능',
+  rooms: { count: '10룸', charge: '무료' },
+};
+
+export default data;

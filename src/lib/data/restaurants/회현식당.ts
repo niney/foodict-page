@@ -1,0 +1,44 @@
+import type { Restaurant } from '../../types/restaurant';
+
+const data: Restaurant = {
+  id: 19,
+  name: '회현식당',
+  nameEn: 'Hoehyeon Sikdang',
+  chef: '김건',
+  chefNickname: null,
+  spoonType: 'white',
+  category: '일식',
+  location: '서울특별시 중구 퇴계로2길 9-8',
+  michelin: 0,
+  placeId: '1789189624',
+  nlpId: 707,
+  image: 'https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=600',
+  description: '김건 셰프의 일식당',
+  signature: ['일식 코스'],
+  priceRange: '$$$',
+  phone: '02-318-8011',
+  price: {
+    lunch: '3.7만원',
+    dinner: '3-5만원',
+  },
+  hours: {
+    lunch: '11:30~15:00',
+    dinner: '17:30~21:00 (L.O 20:00)',
+  },
+  closedDays: '매주 토요일, 일요일 휴무',
+  amenities: ['콜키지', '예약금 0원 결제', '노키즈존', '단체', '대관', '무선인터넷'],
+  parking: '불가 (대중교통 이용 권장)',
+  corkage: {
+    wine_magnum: '6만원/병, 최대 2병',
+    wine: '3만원/병, 최대 2병',
+    whiskey: '6만원/병, 최대 2병',
+    note: '디너시 테이블당 주류 주문 필수',
+  },
+  noKids: '노키즈 존으로 운영 중',
+  rooms: {
+    capacity: '최대 6인',
+    note: '매장 문의',
+  },
+};
+
+export default data;

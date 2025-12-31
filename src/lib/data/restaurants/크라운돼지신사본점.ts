@@ -1,0 +1,29 @@
+import type { Restaurant } from '../../types/restaurant';
+
+const data: Restaurant = {
+  id: 14,
+  name: '크라운돼지 신사본점',
+  nameEn: 'Crown Pork',
+  chef: '송훈',
+  chefNickname: null,
+  spoonType: 'white',
+  category: '육류/고기요리',
+  location: '서울 강남구 신사동',
+  michelin: 0,
+  placeId: '1014095921',
+  nlpId: 702,
+  image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600',
+  description: '제주 흑돼지 전문 프리미엄 레스토랑',
+  signature: ['흑돼지 구이', '숙성 삼겹살'],
+  priceRange: '$$$',
+  phone: '050-71489-5700',
+  price: { dinner: '1-4만원' },
+  hours: { weekdayDinner: '17:00~22:00 (L.O 21:00)', weekend: '16:00~21:00 (L.O 20:30)' },
+  amenities: ['콜키지', '무선인터넷'],
+  valet: { rate: '5,000원 (기본 2시간)', additional: '10분당 1,000원' },
+  corkage: { wine: '1만원/병', others: '2만원/병' },
+  maxCapacity: 80,
+  website: 'https://www.instagram.com/crown_pig5109',
+};
+
+export default data;

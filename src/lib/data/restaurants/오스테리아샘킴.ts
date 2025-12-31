@@ -1,0 +1,30 @@
+import type { Restaurant } from '../../types/restaurant';
+
+const data: Restaurant = {
+  id: 9,
+  name: '오스테리아샘킴',
+  nameEn: 'Osteria Sam Kim',
+  chef: '샘킴',
+  chefNickname: null,
+  spoonType: 'white',
+  category: '이탈리아음식',
+  location: '서울 마포구 합정동',
+  michelin: 0,
+  placeId: '993990809',
+  nlpId: 698,
+  image: 'https://images.unsplash.com/photo-1555992336-03a23c7b20ee?w=600',
+  description: '샘킴 셰프의 정통 이탈리안 오스테리아',
+  signature: ['파스타', '이탈리안 코스'],
+  priceRange: '$$$',
+  phone: '02-324-3338',
+  price: { range: '1-7만원' },
+  hours: { lunch: '11:30~15:00', dinner: '18:00~22:00 (L.O 21:30)' },
+  closedDays: '매주 일요일',
+  amenities: ['콜키지', '웰컴키즈존', '자동결제', '예약금 0원 결제', '전문 소믈리에'],
+  parking: '매장 내 주차 불가 (맞은편 주상복합 건물 유료주차장)',
+  corkage: { wine: '5만원/병', max: '1병', note: '매장와인 1병 주문시 1병 프리' },
+  kidsZone: '유아의자, 유아식기 X',
+  maxCapacity: 30,
+};
+
+export default data;

@@ -1,0 +1,28 @@
+import type { Restaurant } from '../../types/restaurant';
+
+const data: Restaurant = {
+  id: 11,
+  name: '천상현의 천상',
+  nameEn: 'Chun Sang Hyun',
+  chef: '천상현',
+  chefNickname: null,
+  spoonType: 'white',
+  category: '중식',
+  location: '서울특별시 서초구 매헌로 16 하이브랜드 라시따델라모다 쇼핑몰 6층',
+  michelin: 0,
+  placeId: '1868983994',
+  nlpId: 700,
+  image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=600',
+  description: '자연 속에서 즐기는 프리미엄 중식',
+  signature: ['짜장면', '탕수육'],
+  priceRange: '$$$',
+  phone: '02-2155-2404',
+  price: { range: '1-12만원' },
+  hours: { lunch: '11:00~15:00 (L.O 14:30)', dinner: '17:00~21:30' },
+  amenities: ['주차', '단체', '홀'],
+  parking: { type: '실내 주차장', rate: '무료', location: '하이브랜드 B3 지하주차장, 라시따 쇼핑몰 지상 6F 주차장' },
+  corkage: '가능 (유료)',
+  group: { room: '최소 5명 ~ 최대 10명', groupSeats: '최소 10명 ~ 최대 50명' },
+};
+
+export default data;

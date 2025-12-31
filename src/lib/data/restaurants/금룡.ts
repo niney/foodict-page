@@ -1,0 +1,21 @@
+import type { Restaurant } from '../../types/restaurant';
+
+const data: Restaurant = {
+  id: 116,
+  name: '금룡',
+  nameEn: 'Geum Ryong',
+  chef: '이문정',
+  chefNickname: '중식 마녀',
+  spoonType: 'black',
+  category: '중식',
+  location: '서울 광진구 광장동',
+  michelin: 0,
+  placeId: '11716004',
+  nlpId: 691,
+  image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=600',
+  description: '워커힐 호텔의 프리미엄 중식',
+  signature: ['딤섬', '광둥요리'],
+  priceRange: '$$$$',
+};
+
+export default data;

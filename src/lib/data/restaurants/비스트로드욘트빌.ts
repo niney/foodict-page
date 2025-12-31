@@ -1,0 +1,21 @@
+import type { Restaurant } from '../../types/restaurant';
+
+const data: Restaurant = {
+  id: 114,
+  name: '비스트로 드 욘트빌',
+  nameEn: 'Bistrot de Yountville',
+  chef: null,
+  chefNickname: '프렌치 파파',
+  spoonType: 'black',
+  category: '프렌치 비스트로',
+  location: '서울 강남구 청담동 83-6',
+  michelin: 1,
+  placeId: '13201580',
+  nlpId: 689,
+  image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600',
+  description: '캘리포니아 스타일 프렌치 비스트로',
+  signature: ['비스트로 메뉴'],
+  priceRange: '$$$',
+};
+
+export default data;
