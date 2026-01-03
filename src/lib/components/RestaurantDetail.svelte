@@ -1,6 +1,5 @@
 <script>
   import { onMount } from 'svelte'
-  import { closeRestaurant } from '../stores/app.js'
 
   export let restaurant
 
@@ -83,12 +82,6 @@
 </script>
 
 <div class="restaurant-detail">
-  <button class="restaurant-detail-close" on:click={() => closeRestaurant()} aria-label="닫기">
-    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-    </svg>
-  </button>
-
   <div class="restaurant-detail-scroll">
     <!-- 히어로 섹션: 이미지 + 오버레이 정보 -->
     <div class="hero-editorial" style="background-image: url({restaurant.image})">
