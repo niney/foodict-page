@@ -90,63 +90,84 @@
   </button>
 
   <div class="restaurant-detail-scroll">
-    <div class="restaurant-detail-hero" style="background-image: url({restaurant.image})">
-      <div class="restaurant-detail-hero-overlay"></div>
+    <!-- 히어로 섹션: 이미지 + 오버레이 정보 -->
+    <div class="hero-editorial" style="background-image: url({restaurant.image})">
+      <div class="hero-editorial-overlay"></div>
 
-      <div class="restaurant-detail-hero-content">
-        <div class="restaurant-detail-badges">
-          <span class="restaurant-detail-spoon" class:white={restaurant.spoonType === 'white'}>
-            {restaurant.spoonType === 'white' ? '🥄 백수저' : '🥢 흑수저'}
+      <!-- 상단 배지 -->
+      <div class="hero-top-badges">
+        <span class="hero-badge-spoon" class:white={restaurant.spoonType === 'white'}>
+          {restaurant.spoonType === 'white' ? '백수저' : '흑수저'}
+        </span>
+        {#if restaurant.michelin > 0}
+          <span class="hero-badge-michelin">
+            {'★'.repeat(restaurant.michelin)} {restaurant.michelin}스타
           </span>
-          {#if restaurant.michelin > 0}
-            <span class="restaurant-detail-michelin">
-              {'⭐'.repeat(restaurant.michelin)} 미슐랭 {restaurant.michelin}스타
-            </span>
-          {/if}
+        {/if}
+      </div>
+
+      <!-- 메인 콘텐츠 오버레이 -->
+      <div class="hero-content-overlay">
+        <!-- 레스토랑 타이틀 -->
+        <div class="hero-title-block">
+          <h1 class="hero-title">{restaurant.name}</h1>
+          <p class="hero-title-en">{restaurant.nameEn}</p>
         </div>
 
-        <h1 class="restaurant-detail-title">{restaurant.name}</h1>
-        <p class="restaurant-detail-title-en">{restaurant.nameEn}</p>
+        <!-- 글래스 카드: 핵심 정보 -->
+        <div class="hero-glass-card">
+          <!-- 셰프 정보 -->
+          {#if restaurant.chef || restaurant.chefNickname}
+            <div class="hero-chef-row">
+              <span class="hero-chef-icon">👨‍🍳</span>
+              <div class="hero-chef-text">
+                {#if restaurant.chefNickname}
+                  <span class="hero-chef-nickname">"{restaurant.chefNickname}"</span>
+                {/if}
+                {#if restaurant.chef}
+                  <span class="hero-chef-name">{restaurant.chef}</span>
+                {/if}
+              </div>
+            </div>
+          {/if}
+
+          <!-- 소개 -->
+          <p class="hero-description">{restaurant.description}</p>
+
+          <!-- 정보 그리드 -->
+          <div class="hero-info-row">
+            <div class="hero-info-item">
+              <span class="hero-info-label">분야</span>
+              <span class="hero-info-value">{restaurant.category}</span>
+            </div>
+            <div class="hero-info-divider"></div>
+            <div class="hero-info-item">
+              <span class="hero-info-label">위치</span>
+              <span class="hero-info-value">{restaurant.location}</span>
+            </div>
+            <div class="hero-info-divider"></div>
+            <div class="hero-info-item">
+              <span class="hero-info-label">가격대</span>
+              <span class="hero-info-value">{restaurant.priceRange}</span>
+            </div>
+          </div>
+
+          <!-- 대표 메뉴 -->
+          {#if restaurant.signature && restaurant.signature.length > 0}
+            <div class="hero-signature">
+              <span class="hero-signature-label">Signature</span>
+              <div class="hero-signature-items">
+                {#each restaurant.signature as menu}
+                  <span class="hero-signature-tag">{menu}</span>
+                {/each}
+              </div>
+            </div>
+          {/if}
+        </div>
       </div>
     </div>
 
     <div class="restaurant-detail-body">
-      <div class="restaurant-detail-section">
-        <div class="restaurant-detail-chef-card">
-          <div class="restaurant-detail-chef-icon">👨‍🍳</div>
-          <div class="restaurant-detail-chef-info">
-            {#if restaurant.chefNickname}
-              <p class="restaurant-detail-chef-nickname">"{restaurant.chefNickname}"</p>
-            {/if}
-            {#if restaurant.chef}
-              <p class="restaurant-detail-chef-name">{restaurant.chef} 셰프</p>
-            {/if}
-          </div>
-        </div>
-      </div>
-
-      <div class="restaurant-detail-section">
-        <h2 class="restaurant-detail-section-title">소개</h2>
-        <p class="restaurant-detail-description">{restaurant.description}</p>
-      </div>
-
-      <div class="restaurant-detail-section">
-        <h2 class="restaurant-detail-section-title">정보</h2>
-        <div class="restaurant-detail-info-grid">
-          <div class="restaurant-detail-info-item">
-            <span class="info-label">분야</span>
-            <span class="info-value">{restaurant.category}</span>
-          </div>
-          <div class="restaurant-detail-info-item">
-            <span class="info-label">위치</span>
-            <span class="info-value">{restaurant.location}</span>
-          </div>
-          <div class="restaurant-detail-info-item">
-            <span class="info-label">가격대</span>
-            <span class="info-value">{restaurant.priceRange}</span>
-          </div>
-        </div>
-      </div>
 
       <!-- 상세 정보 섹션 -->
       {#if restaurant.phone || restaurant.hours || restaurant.price || restaurant.amenities || restaurant.awards}
@@ -465,15 +486,6 @@
           </div>
         </div>
       {/if}
-
-      <div class="restaurant-detail-section">
-        <h2 class="restaurant-detail-section-title">대표 메뉴</h2>
-        <div class="restaurant-detail-signature">
-          {#each restaurant.signature as menu}
-            <span class="signature-item">{menu}</span>
-          {/each}
-        </div>
-      </div>
 
       {#if restaurant.placeId}
         <div class="restaurant-detail-section">
