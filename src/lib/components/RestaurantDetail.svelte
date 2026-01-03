@@ -138,11 +138,6 @@
               <span class="hero-info-label">위치</span>
               <span class="hero-info-value">{restaurant.location}</span>
             </div>
-            <div class="hero-info-divider"></div>
-            <div class="hero-info-item">
-              <span class="hero-info-label">가격대</span>
-              <span class="hero-info-value">{restaurant.priceRange}</span>
-            </div>
           </div>
 
           <!-- 대표 메뉴 -->
