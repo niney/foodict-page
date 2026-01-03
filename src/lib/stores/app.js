@@ -72,7 +72,7 @@ export function openRestaurant(id, pushHistory = true) {
 
   selectedRestaurantId.set(id)
   currentPage.set('restaurant')
-  document.body.style.overflow = 'hidden'
+  window.scrollTo({ top: 0, behavior: 'instant' })
 
   if (pushHistory) {
     const state = { page: 'restaurant', id }
@@ -84,7 +84,6 @@ export function openRestaurant(id, pushHistory = true) {
 export function closeRestaurant(pushHistory = true) {
   selectedRestaurantId.set(null)
   currentPage.set('home')
-  document.body.style.overflow = ''
 
   if (pushHistory) {
     const state = { page: 'home', id: null }

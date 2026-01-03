@@ -2389,39 +2389,7 @@ button:focus-visible {
    Restaurant Detail
    ============================================= */
 .restaurant-detail {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
   background: #fff;
-  overflow-y: auto;
-  animation: fadeIn 0.3s ease;
-}
-
-.restaurant-detail-close {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,0.5);
-  border: none;
-  border-radius: 50%;
-  color: #fff;
-  cursor: pointer;
-  z-index: 1001;
-  transition: all 0.2s ease;
-}
-
-.restaurant-detail-close:hover {
-  background: rgba(0,0,0,0.7);
-  transform: rotate(90deg);
-}
-
-.restaurant-detail-scroll {
-  min-height: 100vh;
 }
 
 /* =============================================
