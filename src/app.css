@@ -2427,45 +2427,48 @@ button:focus-visible {
   z-index: 1;
 }
 
-/* 상단 배지 */
-.hero-top-badges {
-  position: absolute;
-  top: 0.75rem;
-  right: 1rem;
+/* 타이틀 행 (타이틀 + 배지) */
+.hero-title-row {
   display: flex;
-  gap: 0.75rem;
-  z-index: 10;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero-title-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .hero-badge-spoon {
-  padding: 0.5rem 1rem;
-  font-size: 0.7rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  background: rgba(20, 20, 20, 0.8);
+  background: rgba(20, 20, 20, 0.85);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: #d4af37;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 2px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 3px;
 }
 
 .hero-badge-spoon.white {
   background: rgba(255, 255, 255, 0.95);
   color: #1a1a1a;
-  border-color: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 0.6);
 }
 
 .hero-badge-michelin {
-  padding: 0.5rem 1rem;
-  font-size: 0.7rem;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
   background: linear-gradient(135deg, #8b0000 0%, #dc143c 100%);
-  color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 12px rgba(139, 0, 0, 0.4);
+  color: #ffd700;
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(139, 0, 0, 0.4);
 }
 
 /* 메인 콘텐츠 오버레이 */
@@ -2656,9 +2659,8 @@ button:focus-visible {
     min-height: 65vh;
   }
 
-  .hero-top-badges {
-    top: 0.75rem;
-    right: 0.75rem;
+  .hero-title-row {
+    gap: 0.75rem;
   }
 
   .hero-content-overlay {

@@ -87,23 +87,23 @@
     <div class="hero-editorial" style="background-image: url({restaurant.image})">
       <div class="hero-editorial-overlay"></div>
 
-      <!-- 상단 배지 -->
-      <div class="hero-top-badges">
-        <span class="hero-badge-spoon" class:white={restaurant.spoonType === 'white'}>
-          {restaurant.spoonType === 'white' ? '백수저' : '흑수저'}
-        </span>
-        {#if restaurant.michelin > 0}
-          <span class="hero-badge-michelin">
-            {'★'.repeat(restaurant.michelin)} {restaurant.michelin}스타
-          </span>
-        {/if}
-      </div>
-
       <!-- 메인 콘텐츠 오버레이 -->
       <div class="hero-content-overlay">
-        <!-- 레스토랑 타이틀 -->
+        <!-- 레스토랑 타이틀 + 배지 -->
         <div class="hero-title-block">
-          <h1 class="hero-title">{restaurant.name}</h1>
+          <div class="hero-title-row">
+            <h1 class="hero-title">{restaurant.name}</h1>
+            <div class="hero-title-badges">
+              <span class="hero-badge-spoon" class:white={restaurant.spoonType === 'white'}>
+                {restaurant.spoonType === 'white' ? '백수저' : '흑수저'}
+              </span>
+              {#if restaurant.michelin > 0}
+                <span class="hero-badge-michelin">
+                  {'★'.repeat(restaurant.michelin)}
+                </span>
+              {/if}
+            </div>
+          </div>
           <p class="hero-title-en">{restaurant.nameEn}</p>
         </div>
 
