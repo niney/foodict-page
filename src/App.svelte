@@ -16,7 +16,9 @@
   })
 </script>
 
-<Nav />
+{#if $currentPage !== 'restaurant'}
+  <Nav />
+{/if}
 
 {#if $currentPage === 'home'}
   <main>
