@@ -490,6 +490,11 @@
                 loading="lazy"
                 title="{restaurant.name} 위치"
               ></iframe>
+              {#if isMobile}
+                <a href={placeUrl} target="_blank" rel="noopener noreferrer" class="map-overlay">
+                  <span class="map-overlay-text">탭하여 지도 열기</span>
+                </a>
+              {/if}
             {:else}
               <div class="map-placeholder" style="height: {mapHeight}px"></div>
             {/if}
@@ -535,6 +540,11 @@
                 loading="lazy"
                 title="{restaurant.name} 위치"
               ></iframe>
+              {#if isMobile}
+                <a href={searchUrl} target="_blank" rel="noopener noreferrer" class="map-overlay">
+                  <span class="map-overlay-text">탭하여 지도 열기</span>
+                </a>
+              {/if}
             {:else}
               <div class="map-placeholder" style="height: {mapHeight}px"></div>
             {/if}
