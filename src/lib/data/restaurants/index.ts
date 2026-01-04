@@ -113,16 +113,22 @@ export const getWhiteSpoonRestaurants = (): Restaurant[] => whiteSpoonRestaurant
 // 흑수저 식당만
 export const getBlackSpoonRestaurants = (): Restaurant[] => blackSpoonRestaurants
 
-// 추천 식당 (미슐랭 + 인기 식당)
+// 배열 셔플 (Fisher-Yates 알고리즘)
+const shuffleArray = <T>(array: T[]): T[] => {
+  const shuffled = [...array]
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+  return shuffled
+}
+
+// 추천 식당 (미슐랭 랜덤 4개 + 흑수저 랜덤 5개)
 export const getFeaturedRestaurants = (): Restaurant[] => {
-  const michelin = whiteSpoonRestaurants.filter(r => (r.michelin ?? 0) > 0).slice(0, 4)
-  const popular = [
-    blackSpoonRestaurants.find(r => r.id === 117), // 솔밤
-    blackSpoonRestaurants.find(r => r.id === 116), // 금룡
-    whiteSpoonRestaurants.find(r => r.id === 10),  // 카덴
-    blackSpoonRestaurants.find(r => r.id === 103), // 소바쥬
-  ].filter((r): r is Restaurant => r !== undefined)
-  return [...michelin, ...popular]
+  const michelinRestaurants = whiteSpoonRestaurants.filter(r => (r.michelin ?? 0) > 0)
+  const randomMichelin = shuffleArray(michelinRestaurants).slice(0, 4)
+  const randomBlackSpoon = shuffleArray(blackSpoonRestaurants).slice(0, 5)
+  return [...randomMichelin, ...randomBlackSpoon]
 }
 
 // ID로 식당 찾기
