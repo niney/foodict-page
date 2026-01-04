@@ -23,9 +23,9 @@
 {#if $currentPage === 'home'}
   <main>
     <Hero />
+    <RestaurantSection />
     <TodaySection />
     <ChefSection />
-    <RestaurantSection />
     <Footer />
   </main>
 {/if}
