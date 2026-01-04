@@ -39,7 +39,7 @@
       // 감정 분석 통계 조회
       try {
         const response = await fetch(
-          `https://nlpfriendly.easypcb.co.kr/api/restaurants/${restaurant.nlpId}/statistics`
+          `https://nlpfriendly.easypcb.co.kr/api/restaurants/${restaurant.nlpId}/statistics?source=all`
         )
         const result = await response.json()
         if (result.result && result.data) {
@@ -54,7 +54,7 @@
       // 메뉴 통계 조회
       try {
         const response = await fetch(
-          `https://nlpfriendly.easypcb.co.kr/api/restaurants/${restaurant.nlpId}/menu-statistics?minMentions=1`
+          `https://nlpfriendly.easypcb.co.kr/api/restaurants/${restaurant.nlpId}/menu-statistics?minMentions=1&source=all`
         )
         const result = await response.json()
         if (result.result && result.data) {
