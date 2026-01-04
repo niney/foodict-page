@@ -16,6 +16,11 @@
         on:click={() => navigateTo('home')}
       >홈</button>
       <button
+        class="nav-link nav-link-highlight"
+        class:active={$activeSection === 'restaurant'}
+        on:click={() => navigateTo('restaurant')}
+      >흑백요리사2</button>
+      <button
         class="nav-link"
         class:active={$activeSection === 'today'}
         on:click={() => navigateTo('today')}
@@ -25,11 +30,6 @@
         class:active={$activeSection === 'chef'}
         on:click={() => navigateTo('chef')}
       >셰프 레시피</button>
-      <button
-        class="nav-link nav-link-highlight"
-        class:active={$activeSection === 'restaurant'}
-        on:click={() => navigateTo('restaurant')}
-      >흑백요리사2</button>
     </div>
 
     <div class="nav-actions">
