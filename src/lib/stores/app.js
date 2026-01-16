@@ -153,14 +153,20 @@ export function initRouter() {
   const recipeMatch = path.match(/\/recipe\/(\d+)/)
   const restaurantMatch = path.match(/\/restaurant\/(\d+)/)
 
+  // 초기 state 설정 (404 리다이렉트 후 state가 null인 경우 대응)
   if (recipeMatch) {
     const id = parseInt(recipeMatch[1])
+    history.replaceState({ page: 'recipe', id }, null)
     openRecipe(id, false)
   } else if (restaurantMatch) {
     const id = parseInt(restaurantMatch[1])
+    history.replaceState({ page: 'restaurant', id }, null)
     openRestaurant(id, false)
-  } else if (path === '/restaurants') {
+  } else if (path === '/restaurants' || path.startsWith('/restaurants')) {
+    history.replaceState({ page: 'restaurants' }, null)
     currentPage.set('restaurants')
+  } else {
+    history.replaceState({ page: 'home' }, null)
   }
 
   // popstate 이벤트 등록
