@@ -43,14 +43,16 @@ export function openRecipe(id, pushHistory = true) {
   const recipe = getRecipeById(id) || getChefRecipeById(id)
   if (!recipe) return
 
+  if (pushHistory) {
+    // 현재 상태에 스크롤 위치 저장
+    history.replaceState({ ...(history.state || {}), scrollY: window.scrollY }, null)
+    const state = { page: 'recipe', id }
+    history.pushState(state, null, `${BASE_URL}recipe/${id}`)
+  }
+
   selectedRecipeId.set(id)
   currentPage.set('recipe')
   document.body.style.overflow = 'hidden'
-
-  if (pushHistory) {
-    const state = { page: 'recipe', id }
-    history.pushState(state, '', `${BASE_URL}recipe/${id}`)
-  }
 }
 
 // 레시피 닫기
@@ -70,14 +72,16 @@ export function openRestaurant(id, pushHistory = true) {
   const restaurant = getRestaurantById(id)
   if (!restaurant) return
 
+  if (pushHistory) {
+    // 현재 상태에 스크롤 위치 저장
+    history.replaceState({ ...(history.state || {}), scrollY: window.scrollY }, null)
+    const state = { page: 'restaurant', id }
+    history.pushState(state, null, `${BASE_URL}restaurant/${id}`)
+  }
+
   selectedRestaurantId.set(id)
   currentPage.set('restaurant')
   window.scrollTo({ top: 0, behavior: 'instant' })
-
-  if (pushHistory) {
-    const state = { page: 'restaurant', id }
-    history.pushState(state, '', `${BASE_URL}restaurant/${id}`)
-  }
 }
 
 // 식당 닫기
@@ -117,9 +121,11 @@ export function navigateTo(section) {
   } else if (section === 'restaurant') {
     document.getElementById('restaurantSection')?.scrollIntoView({ behavior: 'smooth' })
   } else if (section === 'restaurants') {
+    // 현재 상태에 스크롤 위치 저장
+    history.replaceState({ ...(history.state || {}), scrollY: window.scrollY }, null)
     currentPage.set('restaurants')
     window.scrollTo({ top: 0, behavior: 'smooth' })
-    history.pushState({ page: 'restaurants' }, '', `${BASE_URL}restaurants`)
+    history.pushState({ page: 'restaurants' }, null, `${BASE_URL}restaurants`)
   }
 }
 
@@ -171,6 +177,11 @@ export function initRouter() {
       closeRecipe(false)
       closeRestaurant(false)
       currentPage.set('home')
+    }
+
+    // 스크롤 위치 복원
+    if (state.scrollY !== undefined) {
+      requestAnimationFrame(() => window.scrollTo(0, state.scrollY))
     }
   })
 
