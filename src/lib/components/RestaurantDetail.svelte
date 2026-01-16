@@ -5,8 +5,10 @@
 
   let sentimentData = null
   let menuData = null
+  let menuGroupingData = null
   let isLoadingSentiment = false
   let isLoadingMenu = false
+  let isLoadingMenuGrouping = false
   let isMobile = false
   let showMap = false
 
@@ -64,6 +66,22 @@
         console.error('Failed to fetch menu data:', error)
       } finally {
         isLoadingMenu = false
+      }
+
+      // 메뉴 그룹핑 조회
+      isLoadingMenuGrouping = true
+      try {
+        const response = await fetch(
+          `https://nlpfriendly.easypcb.co.kr/api/restaurants/${restaurant.nlpId}/menu-grouping?source=all`
+        )
+        const result = await response.json()
+        if (result.result && result.data) {
+          menuGroupingData = result.data
+        }
+      } catch (error) {
+        console.error('Failed to fetch menu grouping data:', error)
+      } finally {
+        isLoadingMenuGrouping = false
       }
     }
 
@@ -707,6 +725,139 @@
                   </div>
                 </div>
               {/if}
+            </div>
+          {/if}
+
+          <!-- Menu Category Grouping -->
+          {#if menuGroupingData?.categoryTree && Object.keys(menuGroupingData.categoryTree.children || {}).length > 0}
+            <div class="menu-grouping-section">
+              <div class="menu-grouping-header">
+                <span class="grouping-icon">🗂️</span>
+                <span class="grouping-title">카테고리별 분류</span>
+              </div>
+              <div class="category-tree">
+                {#each Object.entries(menuGroupingData.categoryTree.children || {}) as [categoryKey, category]}
+                  <div class="category-branch">
+                    <div class="category-node level-1">
+                      <div class="node-main">
+                        <span class="node-name">{category.name}</span>
+                        <div class="node-stats">
+                          <span class="stat-count">{category.totalCount}건</span>
+                          <span class="stat-positive">+{category.totalPositive}</span>
+                          <span class="stat-negative">-{category.totalNegative}</span>
+                        </div>
+                      </div>
+                      {#if category.totalCount > 0}
+                        <div class="node-bar">
+                          <div class="node-bar-positive" style="width: {(category.totalPositive / category.totalCount * 100).toFixed(1)}%"></div>
+                        </div>
+                      {/if}
+                    </div>
+
+                    {#if category.items && category.items.length > 0}
+                      <div class="category-items">
+                        {#each category.items as item}
+                          <div class="item-chip">
+                            <span class="item-name">{item.item}</span>
+                            <span class="item-count">{item.count}</span>
+                            {#if item.positive > 0}
+                              <span class="item-positive">+{item.positive}</span>
+                            {/if}
+                            {#if item.negative > 0}
+                              <span class="item-negative">-{item.negative}</span>
+                            {/if}
+                          </div>
+                        {/each}
+                      </div>
+                    {/if}
+
+                    {#if category.children && Object.keys(category.children).length > 0}
+                      <div class="sub-categories">
+                        {#each Object.entries(category.children) as [subKey, subCategory]}
+                          <div class="category-node level-2">
+                            <div class="node-main">
+                              <span class="node-name">{subCategory.name}</span>
+                              <div class="node-stats">
+                                <span class="stat-count">{subCategory.totalCount}건</span>
+                                <span class="stat-positive">+{subCategory.totalPositive}</span>
+                                <span class="stat-negative">-{subCategory.totalNegative}</span>
+                              </div>
+                            </div>
+                            {#if subCategory.totalCount > 0}
+                              <div class="node-bar">
+                                <div class="node-bar-positive" style="width: {(subCategory.totalPositive / subCategory.totalCount * 100).toFixed(1)}%"></div>
+                              </div>
+                            {/if}
+
+                            {#if subCategory.items && subCategory.items.length > 0}
+                              <div class="category-items">
+                                {#each subCategory.items as item}
+                                  <div class="item-chip">
+                                    <span class="item-name">{item.item}</span>
+                                    <span class="item-count">{item.count}</span>
+                                    {#if item.positive > 0}
+                                      <span class="item-positive">+{item.positive}</span>
+                                    {/if}
+                                    {#if item.negative > 0}
+                                      <span class="item-negative">-{item.negative}</span>
+                                    {/if}
+                                  </div>
+                                {/each}
+                              </div>
+                            {/if}
+
+                            {#if subCategory.children && Object.keys(subCategory.children).length > 0}
+                              <div class="sub-categories nested">
+                                {#each Object.entries(subCategory.children) as [deepKey, deepCategory]}
+                                  <div class="category-node level-3">
+                                    <div class="node-main">
+                                      <span class="node-name">{deepCategory.name}</span>
+                                      <div class="node-stats">
+                                        <span class="stat-count">{deepCategory.totalCount}건</span>
+                                        <span class="stat-positive">+{deepCategory.totalPositive}</span>
+                                        <span class="stat-negative">-{deepCategory.totalNegative}</span>
+                                      </div>
+                                    </div>
+
+                                    {#if deepCategory.items && deepCategory.items.length > 0}
+                                      <div class="category-items">
+                                        {#each deepCategory.items as item}
+                                          <div class="item-chip">
+                                            <span class="item-name">{item.item}</span>
+                                            <span class="item-count">{item.count}</span>
+                                            {#if item.positive > 0}
+                                              <span class="item-positive">+{item.positive}</span>
+                                            {/if}
+                                            {#if item.negative > 0}
+                                              <span class="item-negative">-{item.negative}</span>
+                                            {/if}
+                                          </div>
+                                        {/each}
+                                      </div>
+                                    {/if}
+                                  </div>
+                                {/each}
+                              </div>
+                            {/if}
+                          </div>
+                        {/each}
+                      </div>
+                    {/if}
+                  </div>
+                {/each}
+              </div>
+            </div>
+          {:else if isLoadingMenuGrouping}
+            <div class="menu-grouping-section loading">
+              <div class="menu-grouping-header">
+                <span class="grouping-icon">🗂️</span>
+                <span class="grouping-title">카테고리별 분류</span>
+              </div>
+              <div class="grouping-skeleton">
+                <div class="skeleton-item"></div>
+                <div class="skeleton-item"></div>
+                <div class="skeleton-item"></div>
+              </div>
             </div>
           {/if}
 
